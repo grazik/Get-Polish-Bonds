@@ -6,6 +6,7 @@ from datetime import date
 from operator import itemgetter
 
 URL_BASE='https://gpw.notoria.pl/widgets/bonds/screener.php'
+BOND_URL_BASE='https://gpwcatalyst.pl/instrument?nazwa={}'
 
 parser = argparse.ArgumentParser()
 
@@ -116,7 +117,6 @@ def process_bond(bond, market):
 def get_data():
     data = []
     markets = list(filter(lambda m: m,[GPW_REGULATED, args.alternatives and GPW_ALTERNATIVE, args.bondspot and BONDSPOT_REGULATED, args.alternatives and args.bondspot and BONDSPOT_ALTERNATIVE]))
-    print(markets)
     for market in markets:
         shouldMakeRequest = True
         sub_data = []
@@ -133,6 +133,7 @@ def get_data():
 
 def create_df(data):
     df = pd.DataFrame(data, columns=['market', 'uname', 'issuer', 'type', 'rate', 'price', 'ir', 'ytm', 'ytm_net', 'blen', 'y_invest', 'y_invest_net'])
+    df['uname'] = df['uname'].apply(lambda x: f'=HYPERLINK("{BOND_URL_BASE.format(x)}"; "{x}")')
     df.columns = [NAME_MAP[name] for name in df.columns]
     return df
 
