@@ -58,7 +58,7 @@ Program wspiera nastepuje mozliwosci konfiguracyjne
 
 1. W celu zawolania po stalokuponowe lub zerokuponowe obligacje skarbowe i korporacyjne,
 notowanych na rynku catalyst i BondSpot, ktorych wartosc do wykupu miesci sie w
-przedziale <1, 3,5> roku, nalezy wykonac nastepujace polecenie:
+przedziale <1, 3.5> roku, nalezy wykonac nastepujace polecenie:
 
 ```
 python /path/to/bonds.py --yf 1 --yt 3.5 -r ZC XC -t TB CB -b
