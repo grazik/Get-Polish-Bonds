@@ -39,7 +39,7 @@ Program wspiera nastepuje mozliwosci konfiguracyjne
 | --yf                | Wartosc do wykupu - od                   | Liczba. (Domyslnie: 1)                                         |
 | --yt                | Wartosc do wykupu - do                   | Liczba. (Domyslnie: 5)                                         |
 | --mt                | Czas do wykupu - od                      | Liczba. (Domyslnie: 1)                                         |
-| --mf                | Wartosc do wykupu - do                   | Liczba. (Domyslnie: 5)                                         |
+| --mf                | Czas do wykupu - do                      | Liczba. (Domyslnie: 5)                                         |
 | -r / --rate         | Rodzaj odsetek                           | Lista elementow odzielona spacja. Domyslnie wszystkie elementy |
 |                     |                                          | ZC - zero kuponowe                                             |
 |                     |                                          | XC -  staly kupon                                              |
@@ -61,7 +61,7 @@ notowanych na rynku catalyst i BondSpot, ktorych wartosc do wykupu miesci sie w
 przedziale <1, 3,5> roku, nalezy wykonac nastepujace polecenie:
 
 ```
-python /path/to/bonds.py --yf 1 --yf 3.5 --r ZC XC --t TB CB -b
+python /path/to/bonds.py --yf 1 --yt 3.5 -r ZC XC -t TB CB -b
 ```
 
 2. W celu zawolania po zmiennokuponowe obligacje korporacyjne,
@@ -69,7 +69,7 @@ notowanych na rynku catalyst regulowanym i alternatywnym, ktorych wartosc do wyk
 przedziale <1, 3.5> roku a czas do wykupu miesci sie w przedziale <1, 2> nalezy wykonac
 nastepujace polecenie
 ```
-python /path/to/bonds.py --yf 1 --yf 3.5 --r FC --t CB -a --mf 1 --mt 2
+python /path/to/bonds.py --yf 1 --yt 3.5 -r FC -t CB -a --mf 1 --mt 2
 ```
 
 ## Wyniki
