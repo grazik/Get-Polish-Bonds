@@ -101,18 +101,22 @@ def process_type(bond_data):
     return [BOND_TYPE_MAP[bond_type], BOND_RATE_MAP[bond_rate]]
 
 def process_bond(bond, market):
-    ytm_n, ytm_b, blen = itemgetter('ytm_net', 'ytm', 'blen')(bond)
+    ytm_n, ytm_b, blen, ir, price = itemgetter('ytm_net', 'ytm', 'blen', 'ir', 'price')(bond)
     
     [bond_type, bond_rate] = process_type(bond['type'])
     return {
             **bond,
             'type': bond_type,
             'rate': bond_rate,
+            'ytm_net': float(ytm_n),
+            'ytm': float(ytm_b),
+            'blen': float(blen),
+            'ir': float(ir),
+            'price': float(price),
             'y_invest': float(ytm_b) * float(blen),
             'y_invest_net': float(ytm_n) * float(blen),
             'market': MARKET_MAP[market],
     }
-
 
 def get_data():
     data = []
@@ -138,7 +142,7 @@ def create_df(data):
     return df
 
 def save_to_excel(df, name):
-    df.to_excel(name, float_format="%.2f")
+    df.to_excel(name, float_format="%.2f", index=False)
 
 data = get_data()
 df = create_df(data)
