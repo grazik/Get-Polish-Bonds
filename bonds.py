@@ -73,7 +73,8 @@ NAME_MAP = {
         'blen': 'Zapadalnosc',
         'ytm': 'Roczna stopa zwrotu brutto',
         'ytm_net':  'Roczna stopa zwrotu netto',
-        'market': 'Rynek'
+        'market': 'Rynek',
+        'link': 'Link',
 }
 
 MARKET_MAP = {
@@ -111,7 +112,7 @@ def process_bond(bond, market):
             'ytm_net': float(ytm_n),
             'ytm': float(ytm_b),
             'blen': float(blen),
-            'ir': float(ir),
+            'ir': float(ir or 0),
             'price': float(price),
             'y_invest': float(ytm_b) * float(blen),
             'y_invest_net': float(ytm_n) * float(blen),
@@ -130,14 +131,14 @@ def get_data():
             r = requests.get(url, headers={'Referer': 'https://gpwcatalyst.pl/'})
             response = r.json()
             new_bonds = response['screener']['bonds']
-            shouldMakeRequest = not len(new_bonds) % 10
+            shouldMakeRequest = len(new_bonds) == 10
             sub_data = [*sub_data, *[process_bond(bond, market) for bond in new_bonds]]
         data = [*data, *sub_data]
     return data
 
 def create_df(data):
-    df = pd.DataFrame(data, columns=['market', 'uname', 'issuer', 'type', 'rate', 'price', 'ir', 'ytm', 'ytm_net', 'blen', 'y_invest', 'y_invest_net'])
-    df['uname'] = df['uname'].apply(lambda x: f'=HYPERLINK("{BOND_URL_BASE.format(x)}"; "{x}")')
+    df = pd.DataFrame(data, columns=['market', 'uname', 'link', 'issuer', 'type', 'rate', 'price', 'ir', 'ytm', 'ytm_net', 'blen', 'y_invest', 'y_invest_net'])
+    df['link'] = df['uname'].apply(lambda x: f'=HYPERLINK("{BOND_URL_BASE.format(x)}"; "{x}")')
     df.columns = [NAME_MAP[name] for name in df.columns]
     return df
 
